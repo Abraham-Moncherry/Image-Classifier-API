@@ -1,0 +1,48 @@
+{
+	"info": {
+		"_postman_id": "ac99d729-d029-4cda-b1a1-2953a6384950",
+		"name": "Image Classifier API",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "43323634",
+		"_collection_link": "https://winter-satellite-205821.postman.co/workspace/Team-Workspace~8e18404a-3816-49b6-8749-0b4bd3d2ba34/collection/43323634-ac99d729-d029-4cda-b1a1-2953a6384950?action=share&source=collection_link&creator=43323634"
+	},
+	"item": [
+		{
+			"name": "/predicts Tests",
+			"item": [
+				{
+					"name": "/predict – Valid Image",
+					"request": {
+						"method": "GET",
+						"header": []
+					},
+					"response": []
+				},
+				{
+					"name": "/predict – No Image Uploaded",
+					"request": {
+						"method": "GET",
+						"header": []
+					},
+					"response": []
+				},
+				{
+					"name": "/predict – Unknown Image",
+					"request": {
+						"method": "GET",
+						"header": []
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "API Online Test",
+			"request": {
+				"method": "GET",
+				"header": []
+			},
+			"response": []
+		}
+	]
+}
