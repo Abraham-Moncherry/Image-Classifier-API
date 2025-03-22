@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Image Classifier</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
+  <style>
+    body {
+      font-family: sans-serif;
+      text-align: center;
+      margin: 40px;
+    }
+    .preview {
+      margin-top: 20px;
+      max-width: 300px;
+    }
+    .result {
+      margin-top: 20px;
+      font-size: 1.2em;
+    }
+    button {
+      padding: 10px 20px;
+      font-size: 1em;
+    }
+  </style>
+
+</head>
+<body>
+
+  <h1>Image Classifier</h1>
+  <p>Select an image and click "Predict"</p>
+
+  <input type="file" id="imageInput" accept="image/*"><br><br>
+  <button type="button" class="btn btn-outline-primary onclick="predictImage()">Predict</button>
+
+  <div class="preview">
+    <img id="previewImage" src="#" alt="" style="display: none; max-width: 100%;">
+  </div>
+
+  <div class="result" id="resultText"></div>
+
+  <script>
+    const imageInput = document.getElementById("imageInput");
+    const previewImage = document.getElementById("previewImage");
+    const resultText = document.getElementById("resultText");
+
+    // Show preview when an image is selected
+    imageInput.addEventListener("change", () => {
+      const file = imageInput.files[0];
+      if (file) {
+        previewImage.src = URL.createObjectURL(file);
+        previewImage.style.display = "block";
+        resultText.innerText = "";
+      }
+    });
+
+    async function predictImage() {
+      const file = imageInput.files[0];
+      if (!file) {
+        resultText.innerText = "⚠️ Please select an image first.";
+        return;
+      }
+
+      const formData = new FormData();
+      formData.append("image", file);
+
+      resultText.innerText = "⏳ Predicting...";
+
+      try {
+        const response = await fetch("http://127.0.0.1:5000/predict", {
+          method: "POST",
+          body: formData
+        });
+
+        const data = await response.json();
+
+        if (data.label) {
+          resultText.innerText = `✅ Prediction: ${data.label} \n Confidence: ${(data.confidence * 100).toFixed(2)}%`;
+        } else {
+          resultText.innerText = `❌ Error: ${data.error}`;
+        }
+      } catch (error) {
+        resultText.innerText = `❌ Failed to reach the API`;
+        console.error(error);
+      }
+    }
+  </script>
+</body>
+</html>
