@@ -1,8 +1,10 @@
 from flask import Flask, request, jsonify
+from flask_cors import CORS
 from predictor import load_model, get_prediction
 from io import BytesIO
 
 app = Flask(__name__)
+CORS(app)
 model = load_model()
 
 @app.route("/")

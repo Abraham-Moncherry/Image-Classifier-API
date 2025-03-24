@@ -32,7 +32,7 @@
   <p>Select an image and click "Predict"</p>
 
   <input type="file" id="imageInput" accept="image/*"><br><br>
-  <button type="button" class="btn btn-outline-primary onclick="predictImage()">Predict</button>
+  <button onclick="predictImage()">Predict</button>
 
   <div class="preview">
     <img id="previewImage" src="#" alt="" style="display: none; max-width: 100%;">
@@ -46,6 +46,8 @@
     const resultText = document.getElementById("resultText");
 
     // Show preview when an image is selected
+
+    // Once a image is selected, the image will be displayed in the previewImage element the previous prediction result is cleared
     imageInput.addEventListener("change", () => {
       const file = imageInput.files[0];
       if (file) {
@@ -75,11 +77,13 @@
 
         const data = await response.json();
 
-        if (data.label) {
-          resultText.innerText = `✅ Prediction: ${data.label} \n Confidence: ${(data.confidence * 100).toFixed(2)}%`;
+        if (data.prediction) {
+          const { label, confidence } = data.prediction;
+          resultText.innerText = `✅ Prediction: ${label} \n Confidence: ${(confidence * 100).toFixed(2)}%`;
         } else {
-          resultText.innerText = `❌ Error: ${data.error}`;
+          resultText.innerText = `❌ Error: ${data.error || "Unexpected error"}`;
         }
+
       } catch (error) {
         resultText.innerText = `❌ Failed to reach the API`;
         console.error(error);
