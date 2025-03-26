@@ -1,6 +1,6 @@
+Flask
 torch
 torchvision
 Pillow
-flask 
-flask-cors
-numpy
+gunicorn
+Flask-Cors
