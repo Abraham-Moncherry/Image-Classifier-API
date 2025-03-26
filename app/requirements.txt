@@ -1,6 +1,0 @@
-Flask
-torch
-torchvision
-Pillow
-gunicorn
-Flask-Cors
